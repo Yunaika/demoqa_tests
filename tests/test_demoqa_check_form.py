@@ -26,7 +26,6 @@ def test_submit_form():
     browser.element('#currentAddress').should(be.blank).type('World')
     browser.element('#state').element('#react-select-3-input').type('NCR').press_tab()
     browser.element('#city').element('#react-select-4-input').type('Delhi').press_tab().press_enter()
-    # browser.element('#city').type('Delhi').press_enter()
 
     #проверяем отправленные данные
     browser.element('//*[@class="table-responsive"]//tr[1]//td[2]')\
