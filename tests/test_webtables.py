@@ -9,6 +9,7 @@ def given_opened_page_webtables():
 def test_table_add_new_row():
     # PRECONDITION
     given_opened_page_webtables()
+    path_to_new_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][4]//*[@class="rt-td"]'
 
     # WHEN
     browser.element('#addNewRecordButton').click()
@@ -21,8 +22,6 @@ def test_table_add_new_row():
     browser.element('#submit').click()
 
     # THEN
-    path_to_new_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][4]//*[@class="rt-td"]'
-
     browser.element(f'{path_to_new_row}[1]').should(have.exact_text('Olga'))
     browser.element(f'{path_to_new_row}[2]').should(have.exact_text('Semenova'))
     browser.element(f'{path_to_new_row}[3]').should(have.exact_text('30'))
@@ -59,16 +58,17 @@ def test_table_edit_row_two():
 def test_tables_remove_row_three():
     # RECONDITION
     given_opened_page_webtables()
+    path_to_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][3]'
+    path_to_column = '//*[@class="rt-td"]'
+    path_to_delete_button = '//*[@title="Delete"]'
 
     # WHEN
-    browser.element('//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][3]//*[@title="Delete"]').click()
+    browser.element(path_to_column + path_to_delete_button).click()
 
     # THEN
-    path_to_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][3]//*[@class="rt-td"]'
-
-    # browser.element(f'{path_to_row}[1]').should(be.empty)
-    # browser.element(f'{path_to_row}[2]').should(be.empty)
-    # browser.element(f'{path_to_row}[3]').should(be.empty)
-    # browser.element(f'{path_to_row}[4]').should(be.empty)
-    # browser.element(f'{path_to_row}[5]').should(be.empty)
-    # browser.element(f'{path_to_row}[6]').should(be.empty)
+    browser.element(f'{path_to_row + path_to_column}[1]').should(have.exact_text(' '))
+    browser.element(f'{path_to_row + path_to_column}[2]').should(have.exact_text(' '))
+    browser.element(f'{path_to_row + path_to_column}[3]').should(have.exact_text(' '))
+    browser.element(f'{path_to_row + path_to_column}[4]').should(have.exact_text(' '))
+    browser.element(f'{path_to_row + path_to_column}[5]').should(have.exact_text(' '))
+    browser.element(f'{path_to_row + path_to_column}[6]').should(have.exact_text(' '))
