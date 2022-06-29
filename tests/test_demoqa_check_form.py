@@ -1,49 +1,51 @@
 from selene.support.shared import browser
-from selene import be, have
+from selene import have, command
+from demoqa_tests.utils import get_abspath
 
-#открываем страницу и скрываем футер
-def given_opened_text_box_and_hide_footer():
+# открываем страницу и скрываем футер
+def given_opened_text_box():
     browser.open('/automation-practice-form')
-    browser.element('footer')._execute_script('element.style.display = "None"')
+
+def path_to_row(tr, td):
+    return f'//*[@class="table-responsive"]//tr[{tr}]//td[{td}]'
 
 def test_submit_form():
-    #открываем страницу и скрываем футер
-    given_opened_text_box_and_hide_footer()
+    # PRECONDITION
+    given_opened_text_box()
 
-    #заполняем обязательные поля формы
-    browser.element('#firstName').should(be.blank).type('Olga')
-    browser.element('#lastName').should(be.blank).type('Semenova')
-    browser.element('#userEmail').should(be.blank).type('123@123.ru')
+    # WHEN
+    browser.element('#firstName').type('Olga')
+    browser.element('#lastName').type('Semenova')
+    browser.element('#userEmail').type('123@123.ru')
+
     browser.element('[for="gender-radio-2"]').click()
-    browser.element('#userNumber').should(be.blank).type('1234567890')
+
+    browser.element('#userNumber').type('1234567890')
+
     browser.element('#dateOfBirthInput').click()
-    browser.element('[value="1989"]').click()
-    browser.element('[value="7"]').click()
-    browser.element('[aria-label="Choose Tuesday, August 15th, 1989"]').click()
-    browser.element('#subjectsInput').should(be.blank).type('Maths').press_enter()
-    browser.element('[for="hobbies-checkbox-2"]').click()
-    # browser.element('#uploadPicture').type("py.jpg")
-    browser.element('#currentAddress').should(be.blank).type('World')
+    browser.element('#dateOfBirth').element('[value="1989"]').click()
+    browser.element('#dateOfBirth').element('[value="7"]').click()
+    browser.element('#dateOfBirth').element('[aria-label="Choose Tuesday, August 15th, 1989"]').click()
+
+    browser.element('#subjectsInput').type('Maths').press_enter()
+    browser.element('#hobbiesWrapper').all('.custom-checkbox').element_by(have.exact_text('Reading')).click()
+
+    browser.element('#uploadPicture').send_keys(get_abspath('py.jpg'))
+
+    browser.element('#currentAddress').type('World')
     browser.element('#state').element('#react-select-3-input').type('NCR').press_tab()
-    browser.element('#city').element('#react-select-4-input').type('Delhi').press_tab().press_enter()
+    browser.element('#city').element('#react-select-4-input').type('Delhi').press_tab()
 
-    #проверяем отправленные данные
-    browser.element('//*[@class="table-responsive"]//tr[1]//td[2]')\
-        .should(have.text('Olga Semenova'))
-    browser.element('//*[@class="table-responsive"]//tr[2]//td[2]') \
-        .should(have.text('123@123.ru'))
-    browser.element('//*[@class="table-responsive"]//tr[3]//td[2]') \
-        .should(have.text('Female'))
-    browser.element('//*[@class="table-responsive"]//tr[4]//td[2]') \
-        .should(have.text('1234567890'))
-    browser.element('//*[@class="table-responsive"]//tr[5]//td[2]') \
-        .should(have.text('15 August,1989'))
-    browser.element('//*[@class="table-responsive"]//tr[6]//td[2]') \
-        .should(have.text('Maths'))
-    browser.element('//*[@class="table-responsive"]//tr[7]//td[2]') \
-        .should(have.text('Reading'))
-    browser.element('//*[@class="table-responsive"]//tr[9]//td[2]') \
-        .should(have.text('World'))
-    browser.element('//*[@class="table-responsive"]//tr[10]//td[2]') \
-        .should(have.text('NCR Delhi'))
+    browser.element('#submit').perform(command.js.click)
 
+    # THEN
+    browser.element(path_to_row(1, 2)).should(have.exact_text('Olga Semenova'))
+    browser.element(path_to_row(2, 2)).should(have.exact_text('123@123.ru'))
+    browser.element(path_to_row(3, 2)).should(have.exact_text('Female'))
+    browser.element(path_to_row(4, 2)).should(have.exact_text('1234567890'))
+    browser.element(path_to_row(5, 2)).should(have.exact_text('15 August,1989'))
+    browser.element(path_to_row(6, 2)).should(have.exact_text('Maths'))
+    browser.element(path_to_row(7, 2)).should(have.exact_text('Reading'))
+    browser.element(path_to_row(8, 2)).should(have.exact_text('py.jpg'))
+    browser.element(path_to_row(9, 2)).should(have.exact_text('World'))
+    browser.element(path_to_row(10, 2)).should(have.exact_text('NCR Delhi'))
