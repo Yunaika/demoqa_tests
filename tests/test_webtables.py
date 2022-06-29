@@ -1,5 +1,5 @@
 from selene.support.shared import browser
-from selene import be, have
+from selene import be
 
 #открываем страницу и скрываем футер
 def given_opened_page_webtables():
