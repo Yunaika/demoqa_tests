@@ -1,4 +1,4 @@
-from selene import have, be
+from selene import have
 from selene.support.shared import browser
 
 #открываем страницу и скрываем футер
@@ -9,7 +9,6 @@ def given_opened_page_webtables():
 def test_table_add_new_row():
     # PRECONDITION
     given_opened_page_webtables()
-    path_to_new_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][4]//*[@class="rt-td"]'
 
     # WHEN
     browser.element('#addNewRecordButton').click()
@@ -22,6 +21,7 @@ def test_table_add_new_row():
     browser.element('#submit').click()
 
     # THEN
+    path_to_new_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][4]//*[@class="rt-td"]'
     browser.element(f'{path_to_new_row}[1]').should(have.exact_text('Olga'))
     browser.element(f'{path_to_new_row}[2]').should(have.exact_text('Semenova'))
     browser.element(f'{path_to_new_row}[3]').should(have.exact_text('30'))
@@ -33,11 +33,10 @@ def test_table_add_new_row():
 def test_table_edit_row_two():
     # RECONDITION
     given_opened_page_webtables()
-    path_to_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][2]'
-    path_to_column = '//*[@class="rt-td"]'
-    path_to_edit_button = '//*[@title="Edit"]'
 
     # WHEN
+    path_to_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][2]'
+    path_to_edit_button = '//*[@title="Edit"]'
     browser.element(path_to_row + path_to_edit_button).click()
     browser.element('#firstName').set_value('Ivan')
     browser.element('#lastName').set_value('Petrov')
@@ -48,6 +47,7 @@ def test_table_edit_row_two():
     browser.element('#submit').click()
 
     # THEN
+    path_to_column = '//*[@class="rt-td"]'
     browser.element(f'{path_to_row + path_to_column}[1]').should(have.exact_text('Ivan'))
     browser.element(f'{path_to_row + path_to_column}[2]').should(have.exact_text('Petrov'))
     browser.element(f'{path_to_row + path_to_column}[3]').should(have.exact_text('37'))
@@ -58,14 +58,16 @@ def test_table_edit_row_two():
 def test_tables_remove_row_three():
     # RECONDITION
     given_opened_page_webtables()
-    path_to_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][3]'
-    path_to_column = '//*[@class="rt-td"]'
-    path_to_delete_button = '//*[@title="Delete"]'
+
+
 
     # WHEN
+    path_to_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][3]'
+    path_to_column = '//*[@class="rt-td"]'
     browser.element(path_to_column + path_to_delete_button).click()
 
     # THEN
+    path_to_delete_button = '//*[@title="Delete"]'
     browser.element(f'{path_to_row + path_to_column}[1]').should(have.exact_text(' '))
     browser.element(f'{path_to_row + path_to_column}[2]').should(have.exact_text(' '))
     browser.element(f'{path_to_row + path_to_column}[3]').should(have.exact_text(' '))
