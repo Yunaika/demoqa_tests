@@ -41,11 +41,9 @@ def test_submit_form():
 
     browser.element('#currentAddress').type('World')
 
-    states = Dropdown(browser.element('#state'))
-    states.select(option='NCR')
+    Dropdown(browser.element('#state')).select(option='NCR')
 
-    cities = Dropdown(browser.element('#city'))
-    cities.autocomplete(option='Delhi')
+    Dropdown(browser.element('#city')).autocomplete(option='Delhi')
 
     browser.element('#submit').perform(command.js.click)
 
