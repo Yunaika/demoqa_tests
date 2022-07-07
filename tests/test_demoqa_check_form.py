@@ -50,17 +50,18 @@ def test_submit_form():
     browser.element('#submit').perform(command.js.click)
 
     # THEN
-    result_table = Table()
-    result_table.path_to_cell(tr=1, td=2).should(have.exact_text('Olga Semenova'))
-    result_table.path_to_cell(tr=2, td=2).should(have.exact_text('123@123.ru'))
-    result_table.path_to_cell(tr=3, td=2).should(have.exact_text('Female'))
-    result_table.path_to_cell(tr=4, td=2).should(have.exact_text('1234567890'))
-    result_table.path_to_cell(tr=5, td=2).should(have.exact_text('15 August,1989'))
-    result_table.path_to_cell(tr=6, td=2).should(have.exact_text('Hindi, Economics'))
-    result_table.path_to_cell(tr=7, td=2).should(have.exact_text('Sports, Reading, Music'))
-    result_table.path_to_cell(tr=8, td=2).should(have.exact_text('py.jpg'))
-    result_table.path_to_cell(tr=9, td=2).should(have.exact_text('World'))
-    result_table.path_to_cell(tr=10, td=2).should(have.exact_text('NCR Delhi'))
+    modal_window = browser.element('.modal-content')
+    result_table = Table(modal_window.element('.table'))
+    result_table.path_to_cell(row=1, column=2).should(have.exact_text('Olga Semenova'))
+    result_table.path_to_cell(row=2, column=2).should(have.exact_text('123@123.ru'))
+    result_table.path_to_cell(row=3, column=2).should(have.exact_text('Female'))
+    result_table.path_to_cell(row=4, column=2).should(have.exact_text('1234567890'))
+    result_table.path_to_cell(row=5, column=2).should(have.exact_text('15 August,1989'))
+    result_table.path_to_cell(row=6, column=2).should(have.exact_text('Hindi, Economics'))
+    result_table.path_to_cell(row=7, column=2).should(have.exact_text('Sports, Reading, Music'))
+    result_table.path_to_cell(row=8, column=2).should(have.exact_text('py.jpg'))
+    result_table.path_to_cell(row=9, column=2).should(have.exact_text('World'))
+    result_table.path_to_cell(row=10, column=2).should(have.exact_text('NCR Delhi'))
 
 
 def given_opened_practice_form():
