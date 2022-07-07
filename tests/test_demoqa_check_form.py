@@ -6,7 +6,8 @@ from demoqa_tests.controls.datepicker import DatePicker
 from demoqa_tests.controls.dropdown import Dropdown
 from demoqa_tests.controls.table import Table
 from demoqa_tests.controls.tags_input import TagsInput
-from demoqa_tests.utils import get_abspath
+from demoqa_tests.utils import get_abspath, Months
+
 
 def test_submit_form():
     # PRECONDITION
@@ -23,11 +24,14 @@ def test_submit_form():
     mobile_number = '#userNumber'
     browser.element(mobile_number).type('1234567890')
 
-    date_of_birth = DatePicker(browser.element('#dateOfBirthInput'))
+    calendar = '#dateOfBirthInput'
+    browser.element(calendar).click()
+    date_of_birth = DatePicker(browser.element('#dateOfBirth'))
     date_of_birth.select_year(1989)
-    date_of_birth.select_month('August')
+    print(Months.August)
+    date_of_birth.select_month(Months.August)
     date_of_birth.select_day(15)
-    # date_of_birth.enter_date('15 Aug 1989')
+    # date_of_birth.set_date('15 Aug 1989')
 
     subjects = TagsInput(browser.element('#subjectsInput'))
     subjects.add('Hindi')
