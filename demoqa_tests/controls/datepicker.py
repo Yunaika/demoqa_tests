@@ -1,7 +1,6 @@
-from selene import have, command
+from selene import command
 from selene.core.entity import Element
 from selene.support.shared import browser
-from demoqa_tests.utils import Months
 
 
 class DatePicker:
@@ -17,5 +16,10 @@ class DatePicker:
     def select_day(self, option: int):
         self.element.element(f'.react-datepicker__day--0{option}').click()
 
-    def set_date(self, option: str):
-        self.element.perform(command.js.set_value(option)).click()
+    def set_date(self, calendar: Element, option: str):
+        browser.execute_script(
+            '''
+                document.querySelector("#dateOfBirthInput")
+                .value = ''
+            ''')
+        browser.element(calendar).set_value(option).click()
