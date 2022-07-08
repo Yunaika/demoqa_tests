@@ -27,10 +27,10 @@ def test_submit_form():
     calendar = '#dateOfBirthInput'
     browser.element(calendar).click()
     date_of_birth = DatePicker(browser.element('#dateOfBirth'))
-    # date_of_birth.select_year(1989)
-    # date_of_birth.select_month(Months.August)
-    # date_of_birth.select_day(15)
-    date_of_birth.set_date('15 Aug 1989')
+    date_of_birth.select_year(1989)
+    date_of_birth.select_month(Months.August)
+    date_of_birth.select_day(15)
+    # date_of_birth.set_date('15 Aug 1989')
 
     subjects = TagsInput(browser.element('#subjectsInput'))
     subjects.add('Hindi')
