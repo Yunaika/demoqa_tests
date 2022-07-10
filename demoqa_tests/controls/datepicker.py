@@ -9,9 +9,11 @@ class DatePicker:
 
     def select_year(self, option: int):
         self.element.element(f'[value="{option}"]').click()
+        return self
 
     def select_month(self, option: int):
         self.element.element(f'[value="{option.value}"]').click()
+        return self
 
     def select_day(self, option: int):
         self.element.element(f'.react-datepicker__day--0{option}').click()
