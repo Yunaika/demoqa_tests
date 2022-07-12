@@ -31,8 +31,7 @@ def test_submit_form():
     # date_of_birth.set_date(calendar, '15 Aug 1989')
 
     subjects = TagsInput(browser.element('#subjectsInput'))
-    subjects.add('Hindi')
-    subjects.add('Econ', autocomplete='Economics')
+    subjects.select('Hindi').add('Econ', autocomplete='Economics')
 
     hobby_select('Sports')
     hobby_select('Reading')

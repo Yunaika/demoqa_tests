@@ -64,10 +64,11 @@ def test_tables_remove_row_three():
     # WHEN
     path_to_row = '//*[@class="rt-table"]//*[@class="rt-tbody"]//*[@role="rowgroup"][3]'
     path_to_column = '//*[@class="rt-td"]'
+    path_to_delete_button = '//*[@title="Delete"]'
     browser.element(path_to_column + path_to_delete_button).click()
 
     # THEN
-    path_to_delete_button = '//*[@title="Delete"]'
+
     browser.element(f'{path_to_row + path_to_column}[1]').should(have.exact_text(' '))
     browser.element(f'{path_to_row + path_to_column}[2]').should(have.exact_text(' '))
     browser.element(f'{path_to_row + path_to_column}[3]').should(have.exact_text(' '))

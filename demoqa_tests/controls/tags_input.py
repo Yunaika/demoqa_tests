@@ -13,3 +13,8 @@ class TagsInput:
         browser.all(
             '.subjects-auto-complete__option'
         ).element_by(have.text(autocomplete or from_)).click()
+        return self
+
+    def select(self, from_: str):
+        self.element.type(from_).press_tab()
+        return self
