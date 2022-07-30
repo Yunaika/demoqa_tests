@@ -1,6 +1,3 @@
-from selene.support.shared import browser
-
-
 class Table:
     def __init__(self, element):
         self.element = element

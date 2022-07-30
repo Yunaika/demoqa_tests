@@ -1,68 +1,51 @@
-from selene.support.shared import browser
-from selene import have, command
+from demoqa_tests.data import User
+from demoqa_tests.model import app
 
-from demoqa_tests.controls.checkbox import hobby_select
-from demoqa_tests.controls.datepicker import DatePicker
-from demoqa_tests.controls.dropdown import Dropdown
-from demoqa_tests.controls.table import Table
-from demoqa_tests.controls.tags_input import TagsInput
-from demoqa_tests.utils import get_abspath, Months
+user = User(
+    first_name='Olga',
+    last_name='Semenova',
+    email='123@123.ru',
+    gender='Female',
+    mobile_number='1234567890',
+    date_of_birth='15 August,1989',
+    subjects=['Hindi', 'Economics'],
+    hobbies=['Sports', 'Reading', 'Music'],
+    photo='py.jpg',
+    current_address='World',
+    state='NCR',
+    city='Delhi'
+    )
 
 
 def test_submit_form():
     # PRECONDITION
-    given_opened_practice_form()
+    app.given_opened_practice_form()
 
     # WHEN
-    browser.element('#firstName').type('Olga')
-    browser.element('#lastName').type('Semenova')
-    browser.element('#userEmail').type('123@123.ru')
-
-    gender_female = '[for=gender-radio-2]'
-    browser.element(gender_female).click()
-
-    mobile_number = '#userNumber'
-    browser.element(mobile_number).type('1234567890')
-
-    calendar = '#dateOfBirthInput'
-    browser.element(calendar).click()
-    date_of_birth = DatePicker(browser.element('#dateOfBirth'))
-    date_of_birth.select_year(1989).select_month(Months.August).select_day(15)
-    # date_of_birth.set_date(calendar, '15 Aug 1989')
-
-    subjects = TagsInput(browser.element('#subjectsInput'))
-    subjects.add('Hindi')
-    subjects.add('Econ', autocomplete='Economics')
-
-    hobby_select('Sports')
-    hobby_select('Reading')
-    hobby_select('Music')
-
-    browser.element('#uploadPicture').send_keys(get_abspath('py.jpg'))
-
-    browser.element('#currentAddress').type('World')
-
-    Dropdown(browser.element('#state')).select(option='NCR')
-
-    Dropdown(browser.element('#city')).autocomplete(option='Delhi')
-
-    browser.element('#submit').perform(command.js.click)
+    app.form.set_first_name(user.first_name) \
+        .set_last_name(user.last_name) \
+        .set_email(user.email) \
+        .set_gender(user.gender) \
+        .set_mobile_number(user.mobile_number) \
+        .set_date_of_birth(user.date_of_birth) \
+        .set_subjects(user.subjects) \
+        .subjects_should_have(user.subjects) \
+        .set_hobbies(user.hobbies) \
+        .set_photo(user.photo) \
+        .set_current_address(user.current_address) \
+        .set_state(user.state) \
+        .set_city(user.city) \
+        .submit()
 
     # THEN
-    modal_window = browser.element('.modal-content')
-    result_table = Table(modal_window.element('.table'))
-    result_table.path_to_cell(row=1, column=2).should(have.exact_text('Olga Semenova'))
-    result_table.path_to_cell(row=2, column=2).should(have.exact_text('123@123.ru'))
-    result_table.path_to_cell(row=3, column=2).should(have.exact_text('Female'))
-    result_table.path_to_cell(row=4, column=2).should(have.exact_text('1234567890'))
-    result_table.path_to_cell(row=5, column=2).should(have.exact_text('15 August,1989'))
-    result_table.path_to_cell(row=6, column=2).should(have.exact_text('Hindi, Economics'))
-    result_table.path_to_cell(row=7, column=2).should(have.exact_text('Sports, Reading, Music'))
-    result_table.path_to_cell(row=8, column=2).should(have.exact_text('py.jpg'))
-    result_table.path_to_cell(row=9, column=2).should(have.exact_text('World'))
-    result_table.path_to_cell(row=10, column=2).should(have.exact_text('NCR Delhi'))
-
-
-def given_opened_practice_form():
-    browser.open('/automation-practice-form')
-
+    app.result.verify_sent_data(user.full_name(user.first_name, user.last_name),
+                                user.email,
+                                user.gender,
+                                user.mobile_number,
+                                user.date_of_birth,
+                                user.subjects,
+                                user.hobbies,
+                                user.photo,
+                                user.current_address,
+                                user.state_and_city(user.state, user.city)
+                                )
