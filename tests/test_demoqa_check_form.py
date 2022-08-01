@@ -25,11 +25,10 @@ user = User(
 @allure.link('https://demoqa.com', name='Test link')
 @allure.title('Successful fill in the form')
 def test_submit_form(setup_browser):
-    browser = setup_browser
     # PRECONDITION
     with allure.step('Open registrations form'):
+        browser = setup_browser
         app.given_opened_practice_form()
-        # browser.open("https://demoqa.com/automation-practice-form")
 
     # WHEN
     with allure.step(f'Filling user firstname: {user.first_name}'):
