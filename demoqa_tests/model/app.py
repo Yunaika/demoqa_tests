@@ -5,5 +5,6 @@ from demoqa_tests.model.pages.student_registration_page import StudentRegistrati
 form = StudentRegistrationForm()
 result = ModalDialogSubmittingForm()
 
-def given_opened_practice_form():
-    browser.open('/automation-practice-form')
+
+def given_opened_practice_form(browser):
+   browser.open('https://demoqa.com/automation-practice-form')
