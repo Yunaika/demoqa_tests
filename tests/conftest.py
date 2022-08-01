@@ -24,6 +24,8 @@ def load_env():
 
 @pytest.fixture(scope='function')
 def setup_browser(request):
+    shutil.rmtree('allure-results')
+
     browser.config.base_url = 'https://demoqa.com'
     # browser.config.hold_browser_open = 'True'
     browser.config.window_width = 1600
@@ -60,4 +62,3 @@ def setup_browser(request):
     add_logs(browser)
     add_video(browser)
     browser.quit()
-    # shutil.rmtree('allure-results')
