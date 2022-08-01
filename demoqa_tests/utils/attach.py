@@ -17,9 +17,9 @@ def add_html(browser):
     allure.attach(body=html, name='page_source', attachment_type=AttachmentType.HTML, extension='.html')
 
 
-# def add_video(browser):
-#     video_url = "https://selenoid.autotests.cloud/video/" + browser.driver.session_id + ".mp4"
-#     html = "<html><body><video width='100%' height='100%' controls autoplay><source src='" \
-#            + video_url \
-#            + "' type='video/mp4'></video></body></html>"
-#     allure.attach(body=html, name='test_video_' + browser.driver.session_id, attachment_type=AttachmentType.HTML, extension='.html')
+def add_video(browser):
+    video_url = "https://selenoid.autotests.cloud/video/" + browser.driver.session_id + ".mp4"
+    html = "<html><body><video width='100%' height='100%' controls autoplay><source src='" \
+           + video_url \
+           + "' type='video/mp4'></video></body></html>"
+    allure.attach(body=html, name='test_video_' + browser.driver.session_id, attachment_type=AttachmentType.HTML, extension='.html')

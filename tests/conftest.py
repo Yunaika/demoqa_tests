@@ -3,9 +3,10 @@ import shutil
 import pytest
 from dotenv import load_dotenv
 from selene import Browser, Config
+from selene.support.shared import browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from demoqa_tests.utils.attach import add_html, add_screenshot, add_logs#, add_video
+from demoqa_tests.utils.attach import add_html, add_screenshot, add_logs, add_video
 
 DEFAULT_BROWSER_VERSION = '100.0'
 
@@ -23,6 +24,11 @@ def load_env():
 
 @pytest.fixture(scope='function')
 def setup_browser(request):
+    browser.config.base_url = 'https://demoqa.com'
+    # browser.config.hold_browser_open = 'True'
+    browser.config.window_width = 1600
+    browser.config.window_height = 1000
+
     browser_version = request.config.getoption('--browser_version')
     browser_version = browser_version if browser_version != "" else DEFAULT_BROWSER_VERSION
     options = Options()
@@ -44,18 +50,14 @@ def setup_browser(request):
          options=options
     )
 
-    browser = Browser(Config(driver))
+    browser.config.driver = driver
 
-    # browser.config.base_url = 'https://demoqa.com'
-    # browser.config.hold_browser_open = 'True'
-    # browser.config.window_width = 1600
-    # browser.config.window_height = 1000
 
     yield browser
 
     add_html(browser)
     add_screenshot(browser)
     add_logs(browser)
-    # add_video(browser)
+    add_video(browser)
     browser.quit()
     # shutil.rmtree('allure-results')

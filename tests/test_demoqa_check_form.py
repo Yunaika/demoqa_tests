@@ -28,8 +28,8 @@ def test_submit_form(setup_browser):
     browser = setup_browser
     # PRECONDITION
     with allure.step('Open registrations form'):
-        # app.given_opened_practice_form()
-        browser.open("https://demoqa.com/automation-practice-form")
+        app.given_opened_practice_form()
+        # browser.open("https://demoqa.com/automation-practice-form")
 
     # WHEN
     with allure.step(f'Filling user firstname: {user.first_name}'):
